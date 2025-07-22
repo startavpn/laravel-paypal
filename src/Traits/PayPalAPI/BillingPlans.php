@@ -37,10 +37,19 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans()
+    public function listPlans(string $product_id = '')
     {
-        $this->apiEndPoint = "v1/billing/plans?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}";
+        $query = http_build_query([
+            'page' => $this->current_page,
+            'page_size' => $this->page_size,
+            'total_required' => $this->show_totals,
+        ]);
 
+        if (!empty($product_id)) {
+            $query .= "&product_id={$product_id}";
+        }
+
+        $this->apiEndPoint = "v1/billing/plans?$query";
         $this->verb = 'get';
 
         return $this->doPayPalRequest();
