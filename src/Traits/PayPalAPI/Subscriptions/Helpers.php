@@ -26,7 +26,7 @@ trait Helpers
     /**
      * @var array
      */
-    protected $billing_plan;
+    public $billing_plan;
 
     /**
      * @var array
